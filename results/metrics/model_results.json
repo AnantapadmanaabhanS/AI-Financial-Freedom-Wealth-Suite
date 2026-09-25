@@ -1,0 +1,129 @@
+{
+    "Dataset": {
+        "samples": 2430,
+        "features": 15,
+        "target_regression": "required_corpus",
+        "target_classification": "risk_profile"
+    },
+    "Regression_Models": {
+        "Linear Regression (Baseline)": {
+            "model_name": "Linear Regression (Baseline)",
+            "MAE": 7636140.19502616,
+            "RMSE": 13800693.88792984,
+            "R2": 0.9638051221210169,
+            "CV_R2_Mean": 0.9568769047484065,
+            "CV_R2_Std": 0.007846508584886253
+        },
+        "Random Forest Regressor": {
+            "model_name": "Random Forest Regressor",
+            "MAE": 4386302.119341563,
+            "RMSE": 9847424.450460171,
+            "R2": 0.9815714746251717,
+            "CV_R2_Mean": 0.95830129213946,
+            "CV_R2_Std": 0.011983499757663217
+        },
+        "Gradient Boosting Regressor": {
+            "model_name": "Gradient Boosting Regressor",
+            "MAE": 3523001.9145082887,
+            "RMSE": 7428315.817773073,
+            "R2": 0.989513610396711,
+            "CV_R2_Mean": 0.9757832500196608,
+            "CV_R2_Std": 0.011573391804840169
+        },
+        "HistGradientBoosting Regressor": {
+            "model_name": "HistGradientBoosting Regressor",
+            "MAE": 4051206.0598909333,
+            "RMSE": 12180200.653603489,
+            "R2": 0.971806164892456,
+            "CV_R2_Mean": 0.9360899473084346,
+            "CV_R2_Std": 0.020362189503386297
+        },
+        "Random Forest (Tuned Final)": {
+            "model_name": "Random Forest (Tuned Final)",
+            "MAE": 4386302.119341563,
+            "RMSE": 9847424.450460171,
+            "R2": 0.9815714746251717,
+            "Best_Params": "{'regressor__max_depth': None, 'regressor__min_samples_split': 2, 'regressor__n_estimators': 100}"
+        }
+    },
+    "Classification_Models": {
+        "Logistic Regression (Baseline)": {
+            "model_name": "Logistic Regression (Baseline)",
+            "Accuracy": 0.934156378600823,
+            "Precision": 0.9343136961109106,
+            "Recall": 0.934156378600823,
+            "F1_Score": 0.9341619220631567,
+            "Confusion_Matrix": [
+                [
+                    214,
+                    2,
+                    7
+                ],
+                [
+                    0,
+                    66,
+                    10
+                ],
+                [
+                    7,
+                    6,
+                    174
+                ]
+            ],
+            "CV_F1_Mean": 0.9199478444041695,
+            "CV_F1_Std": 0.014450580478365989
+        },
+        "Random Forest Classifier": {
+            "model_name": "Random Forest Classifier",
+            "Accuracy": 0.9197530864197531,
+            "Precision": 0.9194971753912414,
+            "Recall": 0.9197530864197531,
+            "F1_Score": 0.9196079220771252,
+            "Confusion_Matrix": [
+                [
+                    214,
+                    0,
+                    9
+                ],
+                [
+                    0,
+                    66,
+                    10
+                ],
+                [
+                    11,
+                    9,
+                    167
+                ]
+            ],
+            "CV_F1_Mean": 0.8953072705980294,
+            "CV_F1_Std": 0.01380395305388142
+        },
+        "Gradient Boosting Classifier": {
+            "model_name": "Gradient Boosting Classifier",
+            "Accuracy": 0.9279835390946503,
+            "Precision": 0.9280570355197972,
+            "Recall": 0.9279835390946503,
+            "F1_Score": 0.9279719945326669,
+            "Confusion_Matrix": [
+                [
+                    215,
+                    0,
+                    8
+                ],
+                [
+                    0,
+                    68,
+                    8
+                ],
+                [
+                    9,
+                    10,
+                    168
+                ]
+            ],
+            "CV_F1_Mean": 0.901098556253532,
+            "CV_F1_Std": 0.010357120136797128
+        }
+    }
+}
