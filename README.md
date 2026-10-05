@@ -1,116 +1,136 @@
-# AI-Powered Decentralized Retirement Planning
+# Autonomous AI Financial Freedom & Retirement Suite
 
-**Course**: CS5305 - Machine Learning  
-**Institution**: Chennai Institute of Technology, Chennai  
-**Academic Year**: 2026–2027  
-**Students**: Anantapadmanaabhan S, Kanishka K  
-**Supervisor**: Poornima Lakshmi  
+An end-to-end Machine Learning retirement planning suite combining a predictive **Gradient Boosting Regressor** backend, **Logistic Risk Profile Classifier**, **Explainable AI (XAI)**, **Stochastic Monte Carlo Simulations**, **SHA-256 Cryptographic Off-Chain Record Integrity**, and a modern **React + TypeScript + Vite + Tailwind CSS** frontend dashboard.
 
 ---
 
-## 📌 Project Overview
-This project presents an end-to-end machine learning and decentralized cryptographic architecture for intelligent, personalized retirement planning. The system replaces static annuity calculators with data-driven regression models, multi-class risk profiling, explainable AI (XAI), stochastic Monte Carlo portfolio simulations, and SHA-256 off-chain cryptographic record verification.
+## 📌 Problem Statement & Solution
+
+Traditional retirement calculators rely on static, rigid interest formulas and opaque centralized intermediaries with high advisory fees and no privacy transparency.
+
+**RetireAI** replaces static annuity calculators with a data-driven Machine Learning pipeline:
+- **Corpus Prediction**: Trained Gradient Boosting Regressor predicting the required retirement corpus with **R² = 0.9895** and **MAE = ₹35.23 Lakhs** (a >53% error reduction over baseline Linear Regression).
+- **Risk Profiling**: Multi-class Logistic Classifier predicting investor risk profiles (**93.42% Accuracy**).
+- **Decentralized Record Integrity**: Off-chain SHA-256 cryptographic hash proofs ensuring tamper-evident record verification.
+- **Modern User Experience**: A responsive, glassmorphism-styled React dashboard communicating seamlessly with a Flask REST API.
 
 ---
 
-## 🛠️ Features & Architecture
-- **Financial Profile Ingestion & Validation**: Dynamic validation for age, income, expenses, current savings, retirement age, desired post-retirement income, and risk tolerance.
-- **Financial Feature Engineering**: Derives domain-specific ratios including savings rate, expense ratio, investment ratio, emergency fund ratio, and inflation-adjusted retirement expense.
-- **Retirement Corpus Prediction**: Regression pipeline evaluating Linear Regression baseline against Random Forest Regressor, Gradient Boosting Regressor, and HistGradientBoosting Regressor with 5-fold cross-validation and hyperparameter tuning.
-- **Risk Profiling Classifier**: Predicts investor risk tolerance profiles (Conservative, Moderate, Aggressive) using Logistic Regression and Ensemble Classifiers.
-- **What-If Scenario Simulator**: Simulates alternative retirement timelines (retire at 55, 60, or 65) and calculates funding gaps.
-- **Monte Carlo Simulation**: Runs 2,000 portfolio simulations considering stochastic annual return volatility to project percentile ranges (P10, P50, P90) and goal success probability.
-- **Explainable AI (XAI)**: Feature importances and permutation importances explaining model decision drivers.
-- **Cryptographic Record Integrity**: SHA-256 hash generation for off-chain privacy and tamper-detection proof.
+## 🏗️ Architecture & Technology Stack
 
----
-
-## 📊 Empirical ML Performance Results
-
-### Regression Models (Retirement Corpus Target)
-| Model | MAE (INR) | RMSE (INR) | R² Score | 5-Fold CV R² |
-| :--- | :--- | :--- | :--- | :--- |
-| Linear Regression (Baseline) | ₹76,36,140.20 | ₹1,06,12,045.10 | 0.9638 | 0.9612 ± 0.005 |
-| Random Forest Regressor | ₹43,86,302.12 | ₹7,54,120.40 | 0.9816 | 0.9798 ± 0.004 |
-| **Gradient Boosting Regressor (Selected)** | **₹35,23,001.91** | **₹5,68,910.15** | **0.9895** | **0.9875 ± 0.003** |
-| HistGradientBoosting Regressor | ₹40,51,206.06 | ₹6,45,210.00 | 0.9718 | 0.9695 ± 0.004 |
-| **Random Forest (Tuned Final)** | **₹43,86,302.12** | **₹7,54,120.40** | **0.9816** | **0.9798 ± 0.004** |
-
-### Classification Models (Risk Profile Target)
-| Model | Accuracy | Precision | Recall | F1-Score |
-| :--- | :--- | :--- | :--- | :--- |
-| **Logistic Regression (Baseline)** | **93.42%** | **93.45%** | **93.42%** | **0.9342** |
-| Random Forest Classifier | 91.98% | 92.01% | 91.98% | 0.9196 |
-| Gradient Boosting Classifier | 92.80% | 92.83% | 92.80% | 0.9280 |
-
----
-
-## 🚀 Installation & Quickstart
-
-```bash
-# 1. Clone repository or navigate to directory
-cd "d:\Java Project"
-
-# 2. Install required dependencies
-pip install -r requirements.txt
-
-# 3. Execute Model Training & Evaluation Script
-python train.py
-
-# 4. Launch Local Interactive Streamlit Application
-streamlit run app/app.py
 ```
-
-Or double-click `run_app.bat` on Windows.
-
----
-
-## 📁 Project Structure
-```
-AI-Retirement-Planning/
-│
-├── data/
-│   ├── raw/
-│   │   └── retirement_financial_data.csv
-│   └── processed/
-│
-├── models/
+AI-Financial-Freedom-Wealth-Suite/
+├── backend/
+│   ├── app.py                # Flask REST API server (Port 5000)
+│   └── requirements.txt      # Python dependencies (Flask, Flask-CORS, Scikit-Learn, Pandas)
+├── frontend/
+│   ├── src/
+│   │   ├── config/api.ts     # Central API Configuration (API_BASE_URL)
+│   │   ├── components/       # Navbar, Hero, PlannerForm, PredictionResults, ErrorAlert
+│   │   ├── types/            # TypeScript interfaces for request & response
+│   │   ├── App.tsx           # Main application coordinator & API fetch
+│   │   ├── main.tsx          # React entrypoint
+│   │   └── index.css         # Tailwind & glassmorphism CSS
+│   ├── package.json          # React, TypeScript, Vite, Tailwind CSS
+│   └── vite.config.ts        # Vite configuration (Port 3000)
+├── models/                   # Trained joblib ML model pipelines
 │   ├── retirement_model.joblib
 │   ├── risk_model.joblib
 │   └── preprocessing_pipeline.joblib
-│
-├── src/
-│   ├── data_preprocessing.py
-│   ├── feature_engineering.py
-│   ├── train_retirement.py
-│   ├── train_risk.py
-│   ├── evaluate.py
-│   ├── explainability.py
-│   ├── scenario_simulator.py
-│   ├── monte_carlo.py
-│   ├── goal_drift.py
-│   ├── integrity.py
-│   ├── recommendations.py
-│   └── generate_dataset.py
-│
-├── app/
-│   └── app.py
-│
-├── results/
-│   ├── figures/
-│   │   ├── fig1_dataset_distributions.png
-│   │   ├── ... (fig1 to fig12)
-│   ├── metrics/
-│   │   └── model_results.json
-│   └── tables/
-│       └── table_6_1_model_evaluation_results.csv
-│
-├── tests/
-│   └── test_pipeline.py
-│
-├── train.py
-├── requirements.txt
-├── README.md
-├── .gitignore
-└── run_app.bat
+├── src/                      # ML pipeline modules
+│   ├── data_preprocessing.py # Validation & ColumnTransformer pipeline
+│   ├── feature_engineering.py# Financial ratio calculations
+│   └── scenario_simulator.py  # Financial annuity math & scenario engine
+├── train.py                  # Model training & hyperparameter tuning script
+├── requirements.txt          # Root Python dependencies
+└── README.md                 # Project documentation
 ```
+
+### Stack Components
+- **Frontend**: React 19, TypeScript, Vite 6, Tailwind CSS 3, Lucide Icons.
+- **Backend**: Python 3.13, Flask 3, Flask-CORS 6.
+- **Machine Learning**: Scikit-Learn (Gradient Boosting Regressor, Random Forest, Logistic Regression), Pandas, NumPy, Joblib.
+
+---
+
+## 🚀 Running the Project Locally
+
+### 1. Start the Flask Backend Server (Port 5000)
+```bash
+# Option A: From root directory
+python backend/app.py
+
+# Backend will start on http://127.0.0.1:5000
+```
+
+### 2. Start the React Frontend Application (Port 3000)
+```bash
+# Navigate to frontend directory and start Vite
+cd frontend
+npm install
+npm run dev
+
+# Frontend will launch on http://localhost:3000
+```
+
+---
+
+## 📡 API Specification (`POST /predict`)
+
+### Endpoint
+`POST http://127.0.0.1:5000/predict`
+
+### Example Request Body (JSON)
+```json
+{
+  "age": 32,
+  "gender": "Male",
+  "marital_status": "Married",
+  "dependents": 1,
+  "monthly_income": 120000,
+  "monthly_expenses": 65000,
+  "current_savings": 500000,
+  "existing_investments": 1200000,
+  "retirement_age": 60,
+  "desired_monthly_retirement_income": 80000,
+  "risk_tolerance": "Medium",
+  "expected_inflation_rate": 0.06,
+  "expected_roi": 0.10
+}
+```
+
+### Example Successful Response Body (JSON)
+```json
+{
+  "success": true,
+  "predicted_corpus": 78456900.0,
+  "Future_Corpus": 78456900.0,
+  "required_corpus": 78456900.0,
+  "risk_profile": "Moderate",
+  "metrics": {
+    "years_to_retirement": 28,
+    "future_monthly_expense": 408934.94,
+    "required_corpus": 78529021.95,
+    "projected_corpus": 86520059.58,
+    "funding_gap": 0.0,
+    "funded_percentage": 100.0,
+    "readiness_score": 100.0
+  }
+}
+```
+
+---
+
+## 📊 Empirical Machine Learning Metrics
+
+| Model Architecture | Task | MAE (INR) | RMSE (INR) | R² Score | Accuracy |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Linear Regression (Baseline)** | Regression | ₹76,36,140 | ₹1,06,12,045 | 0.9638 | N/A |
+| **Gradient Boosting Regressor (Selected)** | Regression | **₹35,23,001** | **₹5,68,910** | **0.9895** | N/A |
+| **Logistic Regression (Selected)** | Classification | N/A | N/A | N/A | **93.42%** |
+
+---
+
+## 🔐 Cryptographic Off-Chain Record Integrity
+
+Each profile generates a deterministic **SHA-256 hash proof** of the user's financial record for off-chain privacy and tamper verification. Modifying any input field (e.g. changing income or savings in the payload) immediately triggers an automated tamper alert.

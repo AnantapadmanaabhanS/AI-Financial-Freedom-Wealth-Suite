@@ -8,3 +8,11 @@ ENV/
 .vscode/
 .DS_Store
 *.log
+
+# Node & Frontend
+node_modules/
+dist/
+.vite/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
