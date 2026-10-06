@@ -12,7 +12,7 @@ interface OverviewPageProps {
 }
 
 export const OverviewPage: React.FC<OverviewPageProps> = ({ data, userProfile, onNavigate }) => {
-  const predictedCorpus = data?.predicted_corpus || 78456900;
+  const predictedCorpus = data?.predicted_corpus || 0;
   const metrics = data?.metrics;
   const riskProfile = data?.risk_profile || userProfile.risk_tolerance;
 

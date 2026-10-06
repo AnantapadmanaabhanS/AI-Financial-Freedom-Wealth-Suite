@@ -34,6 +34,14 @@ risk_model = joblib.load(risk_model_path) if os.path.exists(risk_model_path) els
 
 def parse_profile_from_request(data):
     """Parses and sanitizes user profile dictionary from JSON payload."""
+    inflation = float(data.get('expected_inflation_rate', 0.06))
+    if inflation > 1.0:
+        inflation = inflation / 100.0
+        
+    roi = float(data.get('expected_roi', 0.10))
+    if roi > 1.0:
+        roi = roi / 100.0
+
     return {
         'age': int(data.get('age', 32)),
         'gender': str(data.get('gender', 'Male')),
@@ -46,8 +54,8 @@ def parse_profile_from_request(data):
         'retirement_age': int(data.get('retirement_age', 60)),
         'desired_monthly_retirement_income': float(data.get('desired_monthly_retirement_income', 80000.0)),
         'risk_tolerance': str(data.get('risk_tolerance', 'Medium')),
-        'expected_inflation_rate': float(data.get('expected_inflation_rate', 0.06)),
-        'expected_roi': float(data.get('expected_roi', 0.10))
+        'expected_inflation_rate': inflation,
+        'expected_roi': roi
     }
 
 @app.route('/', methods=['GET'])
@@ -77,20 +85,6 @@ def predict():
         feature_cols = NUMERICAL_COLS + CATEGORICAL_COLS + ENGINEERED_FEATURE_NAMES
         X_single = df_feat[feature_cols]
 
-        if ret_model is not None:
-            predicted_corpus = float(ret_model.predict(X_single)[0])
-        else:
-            calc = calculate_retirement_metrics(
-                age=profile['age'], retirement_age=profile['retirement_age'],
-                monthly_income=profile['monthly_income'], monthly_expenses=profile['monthly_expenses'],
-                current_savings=profile['current_savings'], existing_investments=profile['existing_investments'],
-                desired_monthly_ret_inc=profile['desired_monthly_retirement_income'],
-                expected_inflation=profile['expected_inflation_rate'], expected_roi=profile['expected_roi']
-            )
-            predicted_corpus = float(calc['required_corpus'])
-
-        predicted_risk = str(risk_model.predict(X_single)[0]) if risk_model is not None else profile['risk_tolerance']
-        
         calc_metrics = calculate_retirement_metrics(
             age=profile['age'], retirement_age=profile['retirement_age'],
             monthly_income=profile['monthly_income'], monthly_expenses=profile['monthly_expenses'],
@@ -99,11 +93,18 @@ def predict():
             expected_inflation=profile['expected_inflation_rate'], expected_roi=profile['expected_roi']
         )
 
+        if ret_model is not None:
+            predicted_corpus = float(ret_model.predict(X_single)[0])
+        else:
+            predicted_corpus = float(calc_metrics['required_corpus'])
+
+        predicted_risk = str(risk_model.predict(X_single)[0]) if risk_model is not None else profile['risk_tolerance']
+
         return jsonify({
             "success": True,
             "predicted_corpus": round(predicted_corpus, 2),
             "Future_Corpus": round(predicted_corpus, 2),
-            "required_corpus": round(predicted_corpus, 2),
+            "required_corpus": round(calc_metrics['required_corpus'], 2),
             "risk_profile": predicted_risk,
             "metrics": calc_metrics
         }), 200
@@ -277,7 +278,6 @@ def monte_carlo():
         profile['required_corpus'] = metrics['required_corpus']
         final_corpuses, summary = run_monte_carlo_simulation(profile, num_simulations=n_sims)
         
-        # Take a histogram sample of 50 points for chart rendering
         counts, bin_edges = np.histogram(final_corpuses / 1e7, bins=30)
         chart_points = [
             {"bin": round(float((bin_edges[i] + bin_edges[i+1])/2), 2), "count": int(counts[i])}
@@ -309,11 +309,11 @@ def record_integrity():
 def verify_integrity():
     try:
         data = request.get_json(force=True) or {}
-        profile = data.get('profile', {})
-        expected_hash = data.get('expected_hash', '')
+        profile = parse_profile_from_request(data.get('payload', {}))
+        expected_hash = data.get('hash', '')
         is_valid, current_hash = verify_record_integrity(profile, expected_hash)
         return jsonify({
-            "is_valid": is_valid,
+            "valid": is_valid,
             "current_hash": current_hash,
             "expected_hash": expected_hash
         }), 200
@@ -331,9 +331,6 @@ def overview_dashboard():
         feature_cols = NUMERICAL_COLS + CATEGORICAL_COLS + ENGINEERED_FEATURE_NAMES
         X_single = df_feat[feature_cols]
 
-        predicted_corpus = float(ret_model.predict(X_single)[0]) if ret_model is not None else 78456900.0
-        predicted_risk = str(risk_model.predict(X_single)[0]) if risk_model is not None else profile['risk_tolerance']
-        
         calc_metrics = calculate_retirement_metrics(
             age=profile['age'], retirement_age=profile['retirement_age'],
             monthly_income=profile['monthly_income'], monthly_expenses=profile['monthly_expenses'],
@@ -341,6 +338,9 @@ def overview_dashboard():
             desired_monthly_ret_inc=profile['desired_monthly_retirement_income'],
             expected_inflation=profile['expected_inflation_rate'], expected_roi=profile['expected_roi']
         )
+
+        predicted_corpus = float(ret_model.predict(X_single)[0]) if ret_model is not None else float(calc_metrics['required_corpus'])
+        predicted_risk = str(risk_model.predict(X_single)[0]) if risk_model is not None else profile['risk_tolerance']
         
         years_to_ret = max(1, profile['retirement_age'] - profile['age'])
         allocation = calculate_ai_asset_allocation(profile['age'], predicted_risk, years_to_ret)
