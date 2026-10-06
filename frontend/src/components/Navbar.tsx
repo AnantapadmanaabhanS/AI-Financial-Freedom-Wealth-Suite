@@ -1,49 +1,61 @@
 import React from 'react';
-import { ShieldCheck, Cpu, Activity } from 'lucide-react';
+import { Menu, Activity, ShieldCheck, UserCheck } from 'lucide-react';
+import { FinancialProfile } from '../types';
 
 interface NavbarProps {
   apiStatus: 'online' | 'offline' | 'checking';
+  onOpenMobile: () => void;
+  userProfile: FinancialProfile;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ apiStatus }) => {
+export const Navbar: React.FC<NavbarProps> = ({ apiStatus, onOpenMobile, userProfile }) => {
   return (
-    <nav className="sticky top-0 z-50 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo & Branding */}
-          <div className="flex items-center gap-3">
-            <div className="h-11 w-11 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/25">
-              <Cpu className="h-6 w-6 text-white" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-lg tracking-tight text-white">RetireAI</span>
-                <span className="px-2 py-0.5 text-[10px] font-semibold tracking-wider text-indigo-400 bg-indigo-950/80 border border-indigo-800/60 rounded-full uppercase">
-                  ML Suite
-                </span>
-              </div>
-              <p className="text-xs text-slate-400 font-medium">Decentralized Retirement Intelligence</p>
-            </div>
-          </div>
+    <header className="sticky top-0 z-30 h-20 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80 px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <div className="flex items-center gap-4">
+        {/* Mobile menu trigger button */}
+        <button
+          onClick={onOpenMobile}
+          className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white lg:hidden"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
 
-          {/* Right Status Indicator */}
-          <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs text-slate-300">
-              <ShieldCheck className="h-4 w-4 text-emerald-400" />
-              <span>SHA-256 Record Integrity</span>
-            </div>
-
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs">
-              <Activity className={`h-3.5 w-3.5 ${apiStatus === 'online' ? 'text-emerald-400 animate-pulse' : 'text-rose-400'}`} />
-              <span className="text-slate-300 font-medium">
-                {apiStatus === 'online' && 'ML API Ready'}
-                {apiStatus === 'offline' && 'API Offline (Port 5000)'}
-                {apiStatus === 'checking' && 'Connecting API...'}
-              </span>
-            </div>
+        {/* Page Title Context */}
+        <div className="hidden sm:block">
+          <div className="flex items-center gap-2">
+            <h1 className="text-sm font-bold text-white tracking-tight">AI Retirement Command Suite</h1>
+            <span className="px-2 py-0.5 text-[10px] font-bold text-indigo-400 bg-indigo-950/80 border border-indigo-800/60 rounded-full">
+              v2.0
+            </span>
           </div>
+          <p className="text-[11px] text-slate-400">Decentralized Machine Learning & Financial Intelligence</p>
         </div>
       </div>
-    </nav>
+
+      {/* Right User & System Badges */}
+      <div className="flex items-center gap-3">
+        {/* Shared User Badge */}
+        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs">
+          <UserCheck className="h-3.5 w-3.5 text-indigo-400" />
+          <span className="text-slate-300 font-medium">Age {userProfile.age} • Retire @ {userProfile.retirement_age}</span>
+        </div>
+
+        {/* Security Badge */}
+        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs text-slate-300">
+          <ShieldCheck className="h-3.5 w-3.5 text-purple-400" />
+          <span>SHA-256 Proof</span>
+        </div>
+
+        {/* API Health Indicator */}
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs">
+          <Activity className={`h-3.5 w-3.5 ${apiStatus === 'online' ? 'text-emerald-400 animate-pulse' : 'text-rose-400'}`} />
+          <span className="text-slate-300 font-medium">
+            {apiStatus === 'online' && 'API Online (Port 5000)'}
+            {apiStatus === 'offline' && 'API Offline'}
+            {apiStatus === 'checking' && 'Connecting...'}
+          </span>
+        </div>
+      </div>
+    </header>
   );
 };

@@ -10,7 +10,7 @@ interface PredictionResultsProps {
 
 export const PredictionResults: React.FC<PredictionResultsProps> = ({ result, submittedProfile, onReset }) => {
   // Use predicted_corpus from API response
-  const predictedCorpus = result.predicted_corpus || result.Future_Corpus || result.required_corpus;
+  const predictedCorpus = result.predicted_corpus || result.Future_Corpus || result.required_corpus || 0;
   const metrics = result.metrics;
 
   const formatCurrency = (amount: number) => {
